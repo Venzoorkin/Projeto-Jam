@@ -5,10 +5,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 5;
+    private PlayerAnimator animator;
     private bool reached;
     public bool inTransit;
     IEnumerator Moving(Vector3 target)
     {
+        animator = GetComponent<PlayerAnimator>();
+        animator.WalkCycle(transform.position, target);
         reached = false;
         while (reached == false)
         {
@@ -24,7 +27,9 @@ public class PlayerController : MonoBehaviour
         yield return new WaitUntil(() => transform.position == new Vector3(target.x,target.y));
         reached = true;
         inTransit = false;
+        animator.StopWalk();
         StopAllCoroutines();
+
         yield return null;
     }
 
