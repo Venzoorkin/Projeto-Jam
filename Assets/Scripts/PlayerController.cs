@@ -17,6 +17,16 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
             inTransit = true;
+
+
+            if (transform.position.x > 7.5f&&DialogueController.instance.firstTry==false)
+            {
+                StopAllCoroutines();
+                animator.StopWalk();
+                DialogueController.instance.StartCoroutine(DialogueController.instance.PlayDialogue(DialogueController.instance.guardDialogue.introDialogue));
+                DialogueController.instance.firstTry = true;
+            }
+
             yield return null;
         }
     }
